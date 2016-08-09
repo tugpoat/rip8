@@ -5,5 +5,6 @@
 
 int main() {
 	Cpu cpu = Cpu();
+	cpu.init();
 	return 0;
 }

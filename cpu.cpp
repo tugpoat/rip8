@@ -1,5 +1,6 @@
+#include "cpu.h"
 
-Cpu::init() {
+void Cpu::init() {
 	pc		= 0x200; 	//program start address is 0x200
 	opcode	= 0; 		//reset opcode
 	I 		= 0; 		//reset index register
@@ -44,7 +45,7 @@ void Cpu::cycle() {
 		case 0x2000: //call subroutine at NNN
 			stack[sp] = pc;
 			++sp;
-			pc = opcode & 0x0FFF
+			pc = opcode & 0x0FFF;
 			break;
 		case 0x3000: // 3XNN: Skips the next instruction if VX equals NN.
 			if (V[(opcode & 0x0F00) >> 8] == opcode & 0x00FF) {
@@ -69,7 +70,7 @@ void Cpu::cycle() {
 			pc += 2;
 			break;
 		case 0x7000:
-			V[(opcode & 0x0F00) >> 8] += (opcode & 0x00FF)
+			V[(opcode & 0x0F00) >> 8] += (opcode & 0x00FF);
 			pc += 2;
 			break;
 		case 0x8000:
