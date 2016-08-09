@@ -1,0 +1,13 @@
+#ifndef _VIDEO_H
+#define _VIDEO_H
+
+
+#define VIDEO_WIDTH 64
+#define VIDEO_HEIGHT 32
+
+#define VIDEO_SCALE 10
+
+#define SDL_WIDTH (VIDEO_WIDTH * VIDEO_SCALE)
+#define SDL_HEIGHT (VIDEO_HEIGHT * VIDEO_SCALE)
+
+#endif
