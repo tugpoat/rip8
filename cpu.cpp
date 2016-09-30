@@ -13,7 +13,7 @@ void Cpu::init() {
 	//wipe registers
 	memset(V, 0x0, sizeof(uint8_t) * sizeof(V));
 	//wipe memory
-	memset(&memory, 0x0, 0x1000);
+	memset(memory, 0x0, 0x1000);
 	//TODO: load fontset
 	//TODO: reset timers
 }
@@ -23,6 +23,8 @@ void Cpu::init() {
 void Cpu::cycle() {
 	//get opcode
 	opcode = memory[pc] << 8 | memory[pc + 1];
+
+	//TODO: break these out into their own functions or at least group them
 
 	//lop off the trailing 12 bits to narrow down what instruction we're trying to do
 	switch(opcode & 0xF000) {
@@ -97,7 +99,15 @@ void Cpu::cycle() {
 					else
 				    	V[0xF] = 0;
 					V[(opcode & 0x0F00) >> 8] += V[(opcode & 0x00F0) >> 4];
-					pc += 2;          
+					pc += 2;
+					break;
+				case 0x0005:
+					if(V[(opcode & 0x00F0) >> 4] > (0xFF - V[(opcode & 0x0F00) >> 8]))
+					    	V[0xF] = 0; //borrow
+						else
+					    	V[0xF] = 1;
+					V[(opcode & 0x0F00) >> 8] -= V[(opcode & 0x00F0) >> 4];
+					pc += 2;
 					break;
 			}
 		//TODO: more opcodes
